@@ -1,8 +1,14 @@
 package com.zanderwork.twitchbot;
 
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Properties;
+import java.util.Iterator;
 
 /**
  * Created by Zander Work on 2/1/2017.
@@ -10,6 +16,14 @@ import java.util.Properties;
 public class ConfigLoader {
 	private InputStream inputStream;
 	private static HashMap<String, String> config;
+
+	private ArrayList<String> configItems = new ArrayList<>(Arrays.asList(
+			"host",
+	        "port",
+	        "ssl_port",
+	        "oauth_token",
+	        "nickname",
+	        "channel"));
 
 	public ConfigLoader(String filename) throws IOException {
 		try {
@@ -22,13 +36,13 @@ public class ConfigLoader {
 			} else {
 				throw new FileNotFoundException(String.format("The config file %s was not found", filename));
 			}
-			//TODO arraylist all of the config items, iterate through list and populate the config hashmap
-			config.put("host", properties.getProperty("host"));
-			config.put("port", properties.getProperty("port"));
-			config.put("ssl_port", properties.getProperty("ssl_port"));
-			config.put("oauth_token", properties.getProperty("oauth_token"));
-			config.put("nickname", properties.getProperty("nickname"));
-			config.put("channel", properties.getProperty("channel"));
+			Iterator<String> configItemIterator = configItems.iterator();
+			String next;
+			while (configItemIterator.hasNext()) {
+				next = configItemIterator.next();
+				System.out.println(String.format("[CONFIG_CONSTRUCTION] Adding '%s':'%s'", next, properties.getProperty(next)));
+				config.put(next, properties.getProperty(next));
+			}
 		} catch (Exception e) {
 			System.err.println(e.toString());
 		} finally {

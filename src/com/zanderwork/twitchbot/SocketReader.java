@@ -35,15 +35,15 @@ public class SocketReader implements Runnable {
 		while (running) {
 			try {
 				message = reader.readLine();
+				System.out.println(message);
 				if (message.contentEquals("PING :tmi.twitch.tv")) {
 					//avoid getting auto-disconnected
-					Bot.getWriter().sendIRCMessage("PONG");
+					Bot.getWriter().sendIRCMessage("PONG :tmi.twitch.tv");
 				} else if (message.contains("bot.stop")) {
 					//shut down bot
 					Bot.getWriter().sendChatMessage(ConfigLoader.getConfig().get("channel"), "Shutting down bot MrDestructoid");
 					stop();
 				}
-				System.out.println(message);
 			} catch (IOException e) {
 				System.err.println(e.toString());
 			}

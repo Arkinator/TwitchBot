@@ -18,11 +18,13 @@ public class SocketWriter {
 	}
 
 	public void sendIRCMessage(String message) {
+		System.out.println(String.format("[IRC] %s", message));
 		writer.println(message);
 		writer.flush();
 	}
 
 	public void sendChatMessage(String channel, String message) {
+		System.out.println(String.format("[CHAT:%s] %s", channel, message));
 		writer.println(String.format("PRIVMSG #%s :%s", channel, message));
 		writer.flush();
 	}
