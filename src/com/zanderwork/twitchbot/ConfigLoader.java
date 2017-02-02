@@ -9,7 +9,7 @@ import java.util.Properties;
  */
 public class ConfigLoader {
 	private InputStream inputStream;
-	private HashMap<String, String> config;
+	private static HashMap<String, String> config;
 
 	public ConfigLoader(String filename) throws IOException {
 		try {
@@ -36,7 +36,7 @@ public class ConfigLoader {
 		}
 	}
 
-	public HashMap<String, String> getConfig() {
+	public static HashMap<String, String> getConfig() {
 		return config;
 	}
 }

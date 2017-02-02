@@ -17,7 +17,7 @@ public class SocketWriter {
 		writer = new PrintWriter(this.socket.getOutputStream());
 	}
 
-	public void sendIrcMessage(String message) {
+	public void sendIRCMessage(String message) {
 		writer.println(message);
 		writer.flush();
 	}

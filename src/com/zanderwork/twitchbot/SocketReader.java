@@ -4,8 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Created by Zander Work on 2/1/2017.
@@ -18,21 +16,12 @@ public class SocketReader implements Runnable {
 	private boolean running = false;
 	private Thread myThread;
 
-	private String chatMessage;
-	private final Lock chatLock = new ReentrantLock();
-
 	public SocketReader(TwitchSocket socket) throws IOException {
 		this.socket = socket.getSocket();
 
 		reader = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
 
 		myThread = new Thread(this);
-	}
-
-	public String getChatMessage() {
-		synchronized (chatLock) {
-			return chatMessage;
-		}
 	}
 
 	public boolean isRunning() {
@@ -48,10 +37,10 @@ public class SocketReader implements Runnable {
 				message = reader.readLine();
 				if (message.contentEquals("PING :tmi.twitch.tv")) {
 					//avoid getting auto-disconnected
-					Bot.getWriter().sendIrcMessage("PONG");
+					Bot.getWriter().sendIRCMessage("PONG");
 				} else if (message.contains("bot.stop")) {
 					//shut down bot
-					Bot.getWriter().sendChatMessage("techgod52", "Shutting down bot MrDestructoid");
+					Bot.getWriter().sendChatMessage(ConfigLoader.getConfig().get("channel"), "Shutting down bot MrDestructoid");
 					stop();
 				}
 				System.out.println(message);
