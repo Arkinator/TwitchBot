@@ -1,5 +1,5 @@
 #My Twitch Bot
-It's pretty basic at the moment, but my goal is for it to do everything I want it to do.
+It's pretty basic at the moment, but my goal is for it to do everything I want it to do. (NOTE: It's not ready to be used in production atm. You've been warned ;)
 
 ###Installation/Usage
  1. Download the source code
