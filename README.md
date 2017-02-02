@@ -3,7 +3,8 @@ It's pretty basic at the moment, but my goal is for it to do everything I want i
 
 ###Installation/Usage
  1. Download the source code
- 2. Run it
+ 2. Modify `config.example.properties` as per the instructions in the file
+ 3. Run it
 
 Eventually, I'll publish a well-documented release .jar and a init.d service script, but the bot isn't nearly close to being finished, so no need to do that yet.
 
