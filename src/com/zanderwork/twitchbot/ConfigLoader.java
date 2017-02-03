@@ -17,6 +17,8 @@ public class ConfigLoader {
 	private InputStream inputStream;
 	private static HashMap<String, String> config;
 
+	private static ArrayList<String> moderators;
+
 	private ArrayList<String> configItems = new ArrayList<>(Arrays.asList(
 			"host",
 	        "port",
@@ -43,6 +45,9 @@ public class ConfigLoader {
 				Bot.log("CONFIG_CONSTRUCTION", String.format("Adding '%s':'%s'", next, properties.getProperty(next)));
 				config.put(next, properties.getProperty(next));
 			}
+			String modList = properties.getProperty("moderators");
+			moderators = new ArrayList<>(Arrays.asList(modList.split(",")));
+			Bot.log("CONFIG_CONSTRUCTION", "Registering the following moderators: " + modList);
 		} catch (Exception e) {
 			System.err.println(e.toString());
 		} finally {
@@ -52,5 +57,9 @@ public class ConfigLoader {
 
 	public static HashMap<String, String> getConfig() {
 		return config;
+	}
+
+	public static ArrayList<String> getModerators() {
+		return moderators;
 	}
 }

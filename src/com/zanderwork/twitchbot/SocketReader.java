@@ -35,18 +35,20 @@ public class SocketReader implements Runnable {
 		//:memebot42!memebot42@memebot42.tmi.twitch.tv PRIVMSG #techgod52 :test
 		HashMap<String, String> messageParts = new HashMap<>();
 		int numColons = 0;
-		String user = null;
-		String chatMessage = null;
 		if (!message.contains("PRIVMSG")) {
 			//not a chat message, return
 			messageParts.put("error", "irc message not twitch chat message");
 			return messageParts;
 		}
+
+		//we have a valid chat message, continue
 		for (int i = 0; i < message.length(); i++) {
 			if (message.charAt(i) == ':') {
 				numColons++;
 			}
 		}
+		String user = null;
+		String chatMessage = null;
 		String[] colon = message.split(":");
 		user = colon[1].split("!")[0];
 		chatMessage = colon[2];
@@ -71,10 +73,7 @@ public class SocketReader implements Runnable {
 			try {
 				message = reader.readLine();
 				parsedMessage = parseIRC(message);
-				if (!parsedMessage.containsKey("error")) {
-					//we parsed a valid twitch chat message
-					Bot.log("CHAT_IN:" + ConfigLoader.getConfig().get("channel"), String.format("%s: %s", parsedMessage.get("user"), parsedMessage.get("message")));
-				} else {
+				if (parsedMessage.containsKey("error")) {
 					//we attempted to parse a non-twitch chat message
 					Bot.log("IRC_IN", message);
 					if (message.contentEquals("PING :tmi.twitch.tv")) {
@@ -82,9 +81,15 @@ public class SocketReader implements Runnable {
 						Bot.getWriter().sendIRCMessage("PONG :tmi.twitch.tv");
 					}
 					continue;
-				} if (parsedMessage.get("message").equals("bot.stop") && parsedMessage.get("user").equals(ConfigLoader.getConfig().get("channel"))) {
+				}
+				//we parsed a valid twitch chat message
+				Bot.log("CHAT_IN:" + ConfigLoader.getConfig().get("channel"),
+				        String.format("%s: %s", parsedMessage.get("user"), parsedMessage.get("message")));
+				if (parsedMessage.get("message").equals("bot.stop") &&
+				    ConfigLoader.getModerators().contains(parsedMessage.get("user"))) {
 					//shut down bot
-					Bot.getWriter().sendChatMessage(ConfigLoader.getConfig().get("channel"), "Shutting down bot MrDestructoid");
+					Bot.getWriter().sendChatMessage(ConfigLoader.getConfig().get("channel"),
+					                                "Shutting down bot MrDestructoid");
 					stop();
 				}
 			} catch (IOException e) {
