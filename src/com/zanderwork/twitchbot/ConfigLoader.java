@@ -25,7 +25,8 @@ public class ConfigLoader {
 	        "ssl_port",
 	        "oauth_token",
 	        "nickname",
-	        "channel"));
+	        "channel",
+			"command_prefix"));
 
 	public ConfigLoader(String filename) throws IOException {
 		try {
