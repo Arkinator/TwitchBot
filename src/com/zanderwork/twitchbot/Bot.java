@@ -1,6 +1,8 @@
 package com.zanderwork.twitchbot;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -44,5 +46,10 @@ public class Bot {
 
 	public static SocketWriter getWriter() {
 		return writer;
+	}
+
+	public static void log(String tag, String message) {
+		String timeStamp = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(new Date());
+		System.out.println(String.format("%s\t[%s] %s", timeStamp, tag, message));
 	}
 }

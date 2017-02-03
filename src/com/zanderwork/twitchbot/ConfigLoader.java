@@ -40,7 +40,7 @@ public class ConfigLoader {
 			String next;
 			while (configItemIterator.hasNext()) {
 				next = configItemIterator.next();
-				System.out.println(String.format("[CONFIG_CONSTRUCTION] Adding '%s':'%s'", next, properties.getProperty(next)));
+				Bot.log("CONFIG_CONSTRUCTION", String.format("Adding '%s':'%s'", next, properties.getProperty(next)));
 				config.put(next, properties.getProperty(next));
 			}
 		} catch (Exception e) {
