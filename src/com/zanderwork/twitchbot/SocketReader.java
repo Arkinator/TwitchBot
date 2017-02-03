@@ -77,11 +77,12 @@ public class SocketReader implements Runnable {
 				} else {
 					//we attempted to parse a non-twitch chat message
 					Bot.log("IRC_IN", message);
-				}
-				if (message.contentEquals("PING :tmi.twitch.tv")) {
-					//avoid getting auto-disconnected
-					Bot.getWriter().sendIRCMessage("PONG :tmi.twitch.tv");
-				} else if (message.contains("bot.stop")) {
+					if (message.contentEquals("PING :tmi.twitch.tv")) {
+						//avoid getting auto-disconnected
+						Bot.getWriter().sendIRCMessage("PONG :tmi.twitch.tv");
+					}
+					continue;
+				} if (parsedMessage.get("message").equals("bot.stop") && parsedMessage.get("user").equals(ConfigLoader.getConfig().get("channel"))) {
 					//shut down bot
 					Bot.getWriter().sendChatMessage(ConfigLoader.getConfig().get("channel"), "Shutting down bot MrDestructoid");
 					stop();
