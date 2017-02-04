@@ -48,7 +48,8 @@ public class ConfigLoader {
 			}
 			String modList = properties.getProperty("moderators");
 			moderators = new ArrayList<>(Arrays.asList(modList.split(",")));
-			Bot.log("CONFIG_CONSTRUCTION", "Registering the following moderators: " + modList);
+			moderators.add(config.get("channel"));
+			Bot.log("CONFIG_CONSTRUCTION", "Registering the following moderators: " + modList + "," + config.get("channel"));
 		} catch (Exception e) {
 			System.err.println(e.toString());
 		} finally {

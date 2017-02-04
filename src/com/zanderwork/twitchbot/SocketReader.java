@@ -68,6 +68,8 @@ public class SocketReader implements Runnable {
 
 	@Override
 	public void run() {
+		Bot.log("STATUS", "Bot SocketReader starting up");
+
 		running = true;
 		String message;
 		HashMap<String, String> parsedMessage;
@@ -111,6 +113,7 @@ public class SocketReader implements Runnable {
 	}
 
 	public void stop() {
+		Bot.log("STATUS", "Bot SocketReader shutting down");
 		running = false;
 	}
 }
