@@ -1,5 +1,7 @@
 package com.zanderwork.twitchbot;
 
+import sun.security.krb5.Config;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -85,12 +87,17 @@ public class SocketReader implements Runnable {
 				//we parsed a valid twitch chat message
 				Bot.log("CHAT_IN:" + ConfigLoader.getConfig().get("channel"),
 				        String.format("%s: %s", parsedMessage.get("user"), parsedMessage.get("message")));
-				if (parsedMessage.get("message").equals("bot.stop") &&
-				    ConfigLoader.getModerators().contains(parsedMessage.get("user"))) {
-					//shut down bot
-					Bot.getWriter().sendChatMessage(ConfigLoader.getConfig().get("channel"),
-					                                "Shutting down bot MrDestructoid");
-					stop();
+//				if (parsedMessage.get("message").equals("bot.stop") &&
+//				    ConfigLoader.getModerators().contains(parsedMessage.get("user"))) {
+//					//shut down bot
+//					Bot.getWriter().sendChatMessage(ConfigLoader.getConfig().get("channel"),
+//					                                "Shutting down bot MrDestructoid");
+//					stop();
+//				}
+				if (parsedMessage.get("message").charAt(0) == ConfigLoader.getConfig().get("command_prefix").charAt(0)) {
+					//user sent a command, process it
+					String command = parsedMessage.get("message").split(ConfigLoader.getConfig().get("command_prefix"))[1];
+					ChatCommands.runCommand(command, ConfigLoader.getModerators().contains(parsedMessage.get("user")));
 				}
 			} catch (IOException e) {
 				System.err.println(e.toString());
