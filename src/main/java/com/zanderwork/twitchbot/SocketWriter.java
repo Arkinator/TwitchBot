@@ -9,12 +9,9 @@ import java.net.Socket;
  */
 public class SocketWriter {
 	private PrintWriter writer;
-	private Socket socket;
 
-	public SocketWriter(TwitchSocket socket) throws IOException {
-		this.socket = socket.getSocket();
-
-		writer = new PrintWriter(this.socket.getOutputStream());
+	public SocketWriter(Socket socket) throws IOException {
+		writer = new PrintWriter(socket.getOutputStream());
 	}
 
 	public void sendIRCMessage(String message) {

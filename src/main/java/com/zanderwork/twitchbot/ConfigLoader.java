@@ -1,19 +1,17 @@
 package com.zanderwork.twitchbot;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Properties;
-import java.util.Iterator;
 
 /**
  * Created by Zander Work on 2/1/2017.
  */
 public class ConfigLoader {
+	private final String filename;
 	private InputStream inputStream;
 	private static HashMap<String, String> config;
 
@@ -28,18 +26,20 @@ public class ConfigLoader {
 	        "channel",
 			"command_prefix"));
 
-	public ConfigLoader(String filename) throws IOException {
-		try {
-			Properties properties = new Properties();
-			config = new HashMap<>();
+	public ConfigLoader(String filename) {
+		this.filename = filename;
+	}
 
-			inputStream = new FileInputStream(filename);
-			if (inputStream != null) {
-				properties.load(inputStream);
-			} else {
-				throw new FileNotFoundException(String.format("The config file %s was not found", filename));
-			}
-			Iterator<String> configItemIterator = configItems.iterator();
+	public Properties execute() {
+		try(InputStream inputStream = new FileInputStream(filename)) {
+			Properties properties = new Properties();
+			properties.load(inputStream);
+			return properties;
+		} catch (Exception e) {
+			throw new RuntimeException("Unable to load configuration: ", e);
+		}
+	}
+/*			Iterator<String> configItemIterator = configItems.iterator();
 			String next;
 			while (configItemIterator.hasNext()) {
 				next = configItemIterator.next();
@@ -49,13 +49,8 @@ public class ConfigLoader {
 			String modList = properties.getProperty("moderators");
 			moderators = new ArrayList<>(Arrays.asList(modList.split(",")));
 			moderators.add(config.get("channel"));
-			Bot.log("CONFIG_CONSTRUCTION", "Registering the following moderators: " + modList + "," + config.get("channel"));
-		} catch (Exception e) {
-			System.err.println(e.toString());
-		} finally {
-			inputStream.close();
-		}
-	}
+			Bot.log("CONFIG_CONSTRUCTION", "Registering the following moderators: " + modList + "," + config.get("channel"));*/
+
 
 	public static HashMap<String, String> getConfig() {
 		return config;

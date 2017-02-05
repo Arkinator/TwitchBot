@@ -33,9 +33,7 @@ public class ChatCommands {
 			//chat user is a moderator
 			switch (moderator) {
 				case STOP:
-					Bot.getWriter().sendChatMessage(ConfigLoader.getConfig().get("channel"),
-					                                "Shutting down bot MrDestructoid");
-					Bot.getReader().stop();
+					Bot.sendChatMessage("Shutting down bot MrDestructoid");
 					break;
 			}
 			//command was a mod command from a mod, no need to execute user command code
@@ -44,26 +42,22 @@ public class ChatCommands {
 		switch (user) {
 			case ABOUT:
 				//print about blurb
-				Bot.getWriter().sendChatMessage(ConfigLoader.getConfig().get("channel"),
-				                                "Zander is a Terran Player on Team UnRivaled. TeamUR competes in the ChoboTeamLeague " +
+				Bot.sendChatMessage( "Zander is a Terran Player on Team UnRivaled. TeamUR competes in the ChoboTeamLeague " +
 				                                "(http://www.choboteamleague.com), and is one of the top teams. " +
 				                                "Zander also does a lot of programming (" + ConfigLoader.getConfig().get("command_prefix") +
 				                                "github).");
 				break;
 			case YOUTUBE:
 				//print youtube info
-				Bot.getWriter().sendChatMessage(ConfigLoader.getConfig().get("channel"),
-				                                "You can see Zander's YouTube channel at https://www.youtube.com/channel/UCSyfavU-66FP30uKqsN9LLw");
+				Bot.sendChatMessage("You can see Zander's YouTube channel at https://www.youtube.com/channel/UCSyfavU-66FP30uKqsN9LLw");
 				break;
 			case GITHUB:
 				//print github info
-				Bot.getWriter().sendChatMessage(ConfigLoader.getConfig().get("channel"),
-				                                "You can see Zander's GitHub at https://github.com/zzzanderw");
+				Bot.sendChatMessage("You can see Zander's GitHub at https://github.com/zzzanderw");
 				break;
 			case DISCORD:
 				//print discord info
-				Bot.getWriter().sendChatMessage(ConfigLoader.getConfig().get("channel"),
-				                                "You can join our Discord server at https://discord.gg/trpAJ5n");
+				Bot.sendChatMessage("You can join our Discord server at https://discord.gg/trpAJ5n");
 				break;
 		}
 	}
@@ -72,10 +66,10 @@ public class ChatCommands {
 		ABOUT,
 		YOUTUBE,
 		GITHUB,
-		DISCORD;
+		DISCORD
 	}
 
 	private enum Moderator {
-		STOP;
+		STOP
 	}
 }
